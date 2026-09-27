@@ -1,41 +1,39 @@
 /*
-===================================================================
+===============================================================================
 Create Database and Schemas
-===================================================================
+===============================================================================
 Script Purpose:
-This script creates a new databse named 'DataWarehouse' after checking if it already exists.
-If it does, it is dropped and immeditaely re-created. The script also sets up the three scehmas within
-the database. 'Bronze', 'Silver', and 'Gold'.
-
+This script creates a database named 'DataWarehouse'. If the database already
+exists, it is dropped and recreated. The script then creates the bronze,
+silver, and gold schemas.
+===============================================================================
 WARNING:
+Running this script will delete the entire 'DataWarehouse' database if it exists.
+Ensure you have a backup before running it.
+*/
+===============================================================================
 
-Running this script will drop the entire 'DataWarehouse' database if it exists. 
-Proceed with caution and ensure you have the appropriate backups before running this script. 
-/*
-
--- Drop and recreate the 'DataWarehouse' database.
-IF EXISTS (SELECT * FROM sys.databases WHERE NAME = 'DataWarehouse')
-BEGIN
-ALTER DATABASE DataWarehouse SET SINGLE_USER WITH ROLLBACK IMMIEDIATE;
-DROP DATABASE DataWarehouse;
-END;
+USE master;
 GO
 
---Create the 'DataWarehouse' database
-USE master;
+-- Drop and recreate the DataWarehouse database.
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'DataWarehouse')
+BEGIN
+    ALTER DATABASE DataWarehouse SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE DataWarehouse;
+END;
 GO
 
 CREATE DATABASE DataWarehouse;
 GO
 
-Use DataWarehouse;
+USE DataWarehouse;
 GO
 
---Create the Schemas
+-- Create the schemas.
 CREATE SCHEMA bronze;
 GO
 CREATE SCHEMA silver;
 GO
 CREATE SCHEMA gold;
 GO
-
