@@ -69,11 +69,11 @@ The sequence below is for an initial setup or a deliberate full rebuild.
 
 > **Warning:** The initialization script deletes and recreates `DataWarehouse` if it exists. The table DDL scripts also drop and recreate tables. Back up work you need to retain before rebuilding.
 
-Run the initialization script first. Then select **DataWarehouse** as the database for each subsequent query in VS Code. Run each script as a whole file so its `GO` batch separators are respected. The initialization file currently has no `.sql` extension; select **SQL** as its language mode in VS Code if needed.
+Run the initialization script first. Then select **DataWarehouse** as the database for each subsequent query in VS Code. Run each script as a whole file so its `GO` batch separators are respected.
 
 | Step | Script or command | Purpose |
 | --- | --- | --- |
-| 1 | [Initialize database](scripts/init_database_sql) | Create `DataWarehouse` and the three schemas. |
+| 1 | [Initialize database](scripts/init_database.sql) | Create `DataWarehouse` and the three schemas. |
 | 2 | [Bronze DDL](scripts/bronze/ddl_bronze.SQL) | Create the Bronze tables. |
 | 3 | [Bronze procedure](scripts/bronze/proc_load_bronze.sql) | Create or update `bronze.load_bronze`. |
 | 4 | `EXEC bronze.load_bronze;` | Load the source CSVs into Bronze. |
@@ -185,7 +185,7 @@ sql-data-warehouse-project/
 │   └── Sales Data Mart (Star Schema) Gold.drawio.png
 │
 ├── scripts/
-│   ├── init_database_sql           # Database and schema initialization
+│   ├── init_database.sql           # Database and schema initialization
 │   ├── bronze/
 │   │   ├── ddl_bronze.SQL          # Bronze table definitions
 │   │   └── proc_load_bronze.sql    # Bronze loading procedure
