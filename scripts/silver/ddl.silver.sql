@@ -9,7 +9,8 @@ Run this script to re-define the DDL structure of 'silver' tables.
 
 ========================================================
 */
-    
+
+
 IF OBJECT_ID ('silver.crm_cust_info', 'U') IS NOT NULL
 DROP TABLE silver.crm_cust_info;
 CREATE TABLE silver.crm_cust_info(
@@ -27,6 +28,7 @@ IF OBJECT_ID ('silver.crm_prd_info', 'U') IS NOT NULL
 DROP TABLE silver.crm_prd_info;
 CREATE TABLE silver.crm_prd_info(
     prd_id INT,
+    cat_id NVARCHAR (50),
     prd_key NVARCHAR (50),
     prd_nm NVARCHAR (50),
     prd_cost INT,
@@ -77,3 +79,4 @@ CREATE TABLE silver.erp_px_cat_g1v2(
     maintenance NVARCHAR (50),
     dwh_create_date DATETIME2 DEFAULT GETDATE()
 );
+
