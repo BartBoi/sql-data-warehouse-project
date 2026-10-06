@@ -39,9 +39,7 @@ My development environment uses **SQL Server 2022 Developer edition**, running i
 - **[Docker Desktop](https://www.docker.com/products/docker-desktop/):** Runs the SQL Server container on my Mac.
 - **[Visual Studio Code](https://code.visualstudio.com/):** Editor for SQL scripts and Markdown documentation.
 - **[SQL Server extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql):** Connects VS Code to SQL Server and runs SQL queries.
-- **[GitHub Repository](https://github.com/BartBoi/sql-data-warehouse-project):** Stores the project files and tracks changes.
 - **[Draw.io](https://app.diagrams.net/):** An optional tool for designing architecture, data-flow, and data-model diagrams.
-- **[Course Project](https://github.com/DataWithBaraa/sql-data-warehouse-project):** Baraa's original project and learning materials.
 
 For bulk imports, the SQL scripts use paths inside the container, such as `/datasets/source_crm/cust_info.csv`. The datasets folder must be made available to the container at `/datasets`.
 
