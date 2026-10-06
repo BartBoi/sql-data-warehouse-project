@@ -82,7 +82,13 @@ Run the initialization script first. Then select **DataWarehouse** as the databa
 | 9 | [Silver quality checks](tests/quality_checks_silver.sql) | Inspect the cleaned data. |
 | 10 | [Gold quality checks](tests/quality_checks_gold.sql) | Check the dimensions and their links to sales. |
 
-Run each `EXEC` command in a separate query connected to `DataWarehouse`. Defining a stored procedure does not execute it. Check the Messages output after each load for errors; the procedures print caught errors there. The category mismatch described below is an accepted limitation of the course data.
+Run each `EXEC` command in a separate query connected to `DataWarehouse`. Defining a stored procedure does not execute it. Check the Messages output after each load for errors; the procedures print caught errors there. The birth-date results and category mismatch described below are expected course-data cases.
+
+### Interpret the Quality Checks
+
+Checks for duplicates, invalid sales calculations, and missing customer/product links should return no rows. The `SELECT DISTINCT` queries intentionally return values for inspection.
+
+The Silver birth-date range check is expected to return **19 dates before 1926**. These are intentionally engineered data-quality examples in the course and are retained by design; no correction is needed. The loader replaces future birth dates with `NULL`.
 
 ### Query the Result
 
@@ -93,6 +99,24 @@ SELECT TOP (10) * FROM gold.dim_customers;
 SELECT TOP (10) * FROM gold.dim_products;
 SELECT TOP (10) * FROM gold.fact_sales;
 ```
+
+### Expected Final Row Counts
+
+A complete rebuild and a repeat load were tested on SQL Server 2022. Both completed successfully and preserved the business data on reloading.
+
+```sql
+SELECT 'Customers' AS dataset, COUNT_BIG(*) AS row_count FROM gold.dim_customers
+UNION ALL
+SELECT 'Products', COUNT_BIG(*) FROM gold.dim_products
+UNION ALL
+SELECT 'Sales', COUNT_BIG(*) FROM gold.fact_sales;
+```
+
+| Dataset | Expected rows |
+| --- | ---: |
+| Customers | 18,484 |
+| Products | 295 |
+| Sales | 60,398 |
 
 ---
 
@@ -148,9 +172,11 @@ The Bronze and Silver procedures reload stored data. Gold views read the underly
 
 See the [Gold data dictionary](docs/data_catalog.md) for column descriptions.
 
-### Known Source Data Limitation
+### Expected Course Data Cases
 
-Seven current products have the category identifier `CO_PE`, which has no match in the supplied ERP category data. This also appears in the course's checks. The Gold product view retains these products through a `LEFT JOIN`, with `NULL` category, subcategory, and maintenance details. The original identifier is preserved.
+**Birth dates:** The supplied ERP customer data intentionally contains 19 birth dates before `1926-01-01`. The Silver quality check identifies them as a course exercise. These dates are retained by design and require no fix.
+
+**Product categories:** Seven current products have the category identifier `CO_PE`, which has no match in the supplied ERP category data. This also appears in the course's checks. The Gold product view retains these products through a `LEFT JOIN`, with `NULL` category, subcategory, and maintenance details. The original identifier is preserved.
 
 ---
 
