@@ -10,8 +10,8 @@ silver, and gold schemas.
 WARNING:
 Running this script will delete the entire 'DataWarehouse' database if it exists.
 Ensure you have a backup before running it.
-*/
 ===============================================================================
+*/
 
 USE master;
 GO
